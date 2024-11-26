@@ -7,7 +7,7 @@
 
 <p align="left"> <a href="https://twitter.com/thesolyboy" target="blank"><img src="https://img.shields.io/twitter/follow/thesolyboy?logo=twitter&style=for-the-badge" alt="thesolyboy" /></a> </p>
 
-- 🔭 I’m currently working on [Smellow's project](https://smellowsproject.com)
+- 🔭 I’m currently working on [Smellow's project](https://smellowsproject.com) and [TXKN](https://discord.gg/DQZCQf5egg)
 
 - 🌱 I’m currently learning **Python and HTML**
 
