@@ -26,11 +26,11 @@
 
 ###
 
-<p align="left">I'm ... from ....<br><br>- 🔭 I’m working as ...<br>- 📚 I'm currently learning ...<br>- ⚡ In my free time I ...</p>
+<p align="left">I'm Soly, young dev from Norway<br><br>- 🔭 I’m currently studying IT<br>- 📚 I'm currently learning next.js, supabase and coolify<br>- ⚡ In my free time I play volleyball and work on my projects</p>
 
 ###
 
-<h3 align="left">🛠 Language and tools</h3>
+<h3 align="left">🛠 expertise</h3>
 
 ###
 
