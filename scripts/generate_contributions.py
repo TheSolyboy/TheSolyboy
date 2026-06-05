@@ -44,26 +44,18 @@ ICON_STEP = 48
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-ASCII = [
-    "           .o+`",
-    "          `ooo/",
-    "         `+oooo:",
-    "        `+oooooo:",
-    "        -+oooooo+:",
-    "      `/:-:++oooo+:",
-    "     `/++++/+++++++:",
-    "    `/++++++++++++++:",
-    "   `/+++ooooooooooooo/`",
-    "  ./ooosssso++osssssso+`",
-    " .oossssso-````/ossssss+`",
-    "-osssssso.      :ssssssso.",
-    ":osssssss/      osssso+++.",
-    "/ossssssss/     +ssssooo/-",
-    "`/ossssso+/:-   -:/+osssso+-",
-    " `+sso+:-`       `.-/+oso:",
-    "  `++:.            `-/+/",
-    "    .`                `/",
-]
+def load_ascii():
+    """Flame-S logo as ASCII art, loaded from slogo_ascii.txt (committed)."""
+    try:
+        with open("slogo_ascii.txt", encoding="utf-8") as f:
+            return [line.rstrip("\n") for line in f]
+    except FileNotFoundError:
+        return ["S"]
+
+
+ASCII = load_ascii()
+ASCII_FONT = 11          # logo is denser than the info text
+ASCII_LH = 12.5
 
 INFO = [
     ("Role", "Young dev from Norway"),
@@ -153,7 +145,7 @@ def render(data, icons):
     # ---- vertical cursor ----
     p1 = TITLEBAR_H + 28
     fetch_top = p1 + 22
-    fetch_bottom = fetch_top + len(ASCII) * LINE_H
+    fetch_bottom = fetch_top + max(len(ASCII) * ASCII_LH, 11 * LINE_H)
     p2 = fetch_bottom + 26
     icons_y = p2 + 12
     p3 = icons_y + ICON + 30
@@ -181,8 +173,8 @@ def render(data, icons):
     a(f'<text x="{PAD}" y="{p1}" font-size="13">'
       f'<tspan fill="{ACCENT}">$</tspan><tspan fill="{TEXT}"> solyfetch</tspan></text>')
     for i, line in enumerate(ASCII):
-        a(f'<text x="{PAD}" y="{fetch_top + i*LINE_H}" fill="{TEAL}" font-size="12" '
-          f'xml:space="preserve">{esc(line)}</text>')
+        a(f'<text x="{PAD}" y="{fetch_top + i*ASCII_LH}" fill="{TEAL}" '
+          f'font-size="{ASCII_FONT}" xml:space="preserve">{esc(line)}</text>')
     a(f'<text x="{INFO_X}" y="{fetch_top}" font-size="12.5">'
       f'<tspan fill="{ACCENT}">soly</tspan><tspan fill="{MUTED}">@</tspan>'
       f'<tspan fill="{BLUE}">norway</tspan></text>')
