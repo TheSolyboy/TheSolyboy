@@ -1,9 +1,39 @@
+<!-- ========================  TERMINAL HEADER  ======================== -->
 <div align="center">
-  <img height="150" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDYzcmljaHB5OW40Y3QwYzhnN2g1OGphMWRydWlkbm4yOGU4N2t1MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bGgsc5mWoryfgKBx1u/giphy.gif"  />
+
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=2BD96B&center=true&vCenter=true&width=620&height=45&lines=Hi+there%2C+I'm+Soly+%F0%9F%91%8B;Young+dev+from+Norway+%F0%9F%87%B3%F0%9F%87%B4;Currently+studying+IT;Always+building+something" alt="typing banner" />
+
 </div>
 
 ###
 
+<!-- ========================  SOLYFETCH  ======================== -->
+```bash
+visitor@thesolyboy:~$ solyfetch
+
+           .o+`                 soly@norway
+          `ooo/                 ─────────────────────────────
+         `+oooo:                Role        Young dev from Norway 🇳🇴
+        `+oooooo:               Studying    IT
+        -+oooooo+:              Learning    Next.js · Supabase · Coolify
+      `/:-:++oooo+:             Hobbies     Volleyball · Building projects
+     `/++++/+++++++:            Editor      VS Code
+    `/++++++++++++++:           Shell       zsh
+   `/+++ooooooooooooo/`         Langs       Python · HTML · JavaScript
+  ./ooosssso++osssssso+`        Stack       Docker · n8n · Discord bots
+ .oossssso-````/ossssss+`       ─────────────────────────────
+-osssssso.      :ssssssso.      ◉ ◉ ◉   LinkedIn · YouTube · Twitter
+:osssssss/      osssso+++.
+/ossssssss/     +ssssooo/-      visitor@thesolyboy:~$ █
+`/ossssso+/:-   -:/+osssso+-
+ `+sso+:-`       `.-/+oso:
+  `++:.            `-/+/
+    .`                `/
+```
+
+###
+
+<!-- ========================  SOCIALS  ======================== -->
 <div align="center">
   <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="25" alt="linkedin logo"  />
   <img src="https://img.shields.io/static/v1?message=Youtube&logo=youtube&label=&color=FF0000&logoColor=white&labelColor=&style=for-the-badge" height="25" alt="youtube logo"  />
@@ -12,55 +42,42 @@
 
 ###
 
-<div align="center">
-  <img src="https://visitor-badge.laobi.icu/badge?page_id=thesolyboy.thesolyboy&"  />
-</div>
-
-###
-
-<h1 align="center">hey there 👋</h1>
-
-###
-
-<h3 align="left">👩‍💻  About Me</h3>
-
-###
-
-<p align="left">I'm Soly, young dev from Norway<br><br>- 🔭 I’m currently studying IT<br>- 📚 I'm currently learning next.js, supabase and coolify<br>- ⚡ In my free time I play volleyball and work on my projects</p>
-
-###
-
-<h3 align="left">🛠 expertise</h3>
-
-###
+<!-- ========================  EXPERTISE  ======================== -->
+<h3 align="left">$ ls ~/expertise</h3>
 
 <div align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" height="30" alt="html5 logo"  />
   <img width="12" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="30" alt="python logo"  />
   <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ubuntu/ubuntu-original.svg" height="40" alt="ruby logo"  />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ubuntu/ubuntu-original.svg" height="40" alt="ubuntu logo"  />
   <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" height="40" alt="dot-net logo"  />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" height="40" alt="supabase logo"  />
   <img width="12" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-plain-wordmark.svg" height="40" alt="docker logo"  />
   <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/coolify.png" height="40" alt="docker logo"  />
+  <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/coolify.png" height="40" alt="coolify logo"  />
   <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/n8n.png" height="40" alt="docker logo"  />
+  <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/n8n.png" height="40" alt="n8n logo"  />
   <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/discord.png" height="40" alt="docker logo"  />
+  <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/discord.png" height="40" alt="discord logo"  />
   <img width="12" />
 </div>
 
 ###
 
-<h3 align="left">🔥   My Stats :</h3>
+<!-- ========================  STATS  ======================== -->
+<h3 align="left">$ cat ~/stats.log</h3>
+
+<div align="center">
+  <img src="https://streak-stats.demolab.com?user=thesolyboy&locale=en&mode=daily&theme=dark&hide_border=true&border_radius=8&background=0D1117&ring=2BD96B&fire=2BD96B&currStreakLabel=2BD96B&order=3" height="220" alt="streak graph"  />
+</div>
 
 ###
 
+<!-- ========================  VISITORS  ======================== -->
 <div align="center">
-  <img src="https://streak-stats.demolab.com?user=thesolyboy&locale=en&mode=daily&theme=dark&hide_border=false&border_radius=5&order=3" height="220" alt="streak graph"  />
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=thesolyboy.thesolyboy&color=2BD96B"  />
 </div>
 
 ###
