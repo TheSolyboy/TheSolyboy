@@ -66,11 +66,26 @@ visitor@thesolyboy:~$ solyfetch
 
 ###
 
+<!-- ========================  CONTRIBUTION SNAKE  ======================== -->
+<h3 align="left">$ ./contributions --animate</h3>
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/thesolyboy/thesolyboy/output/snake.svg" alt="contribution snake animation" />
+</div>
+
+###
+
 <!-- ========================  STATS  ======================== -->
 <h3 align="left">$ cat ~/stats.log</h3>
 
 <div align="center">
   <img src="https://streak-stats.demolab.com?user=thesolyboy&locale=en&mode=daily&theme=dark&hide_border=true&border_radius=8&background=0D1117&ring=2BD96B&fire=2BD96B&currStreakLabel=2BD96B&order=3" height="220" alt="streak graph"  />
+</div>
+
+###
+
+<div align="center">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=thesolyboy&bg_color=0D1117&color=2BD96B&line=2BD96B&point=FFFFFF&area=true&area_color=2BD96B&hide_border=true&custom_title=Contribution%20Graph" alt="activity graph" />
 </div>
 
 ###
