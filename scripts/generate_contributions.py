@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""Generate ONE terminal-window SVG containing both the neofetch-style info
-block (solyfetch) and the GitHub contribution grid, rendered as green squares.
+"""Generate ONE terminal-window SVG that holds the whole profile:
 
-Everything lives inside a single faux terminal so the contribution graph is
-"in the terminal" rather than a separate widget.
+    $ solyfetch            ascii logo + info
+    $ ls ~/expertise       tech icons (embedded as base64, self-contained)
+    $ github-activity      contribution grid (real data, green squares)
+    $ cat ~/stats.log      computed stats (total / streaks / best day)
+
+Everything lives inside a single faux terminal -> the README is just one image.
 """
+import base64
 import datetime as dt
 import json
 import sys
@@ -19,7 +23,7 @@ TITLEBAR = "#161B22"
 BORDER = "#30363D"
 ACCENT = "#2BD96B"       # green prompt
 TEAL = "#39D0C8"         # ascii logo
-BLUE = "#58A6FF"         # info labels
+BLUE = "#58A6FF"         # info / stat labels
 TEXT = "#C9D1D9"         # values
 MUTED = "#8B949E"
 
@@ -30,10 +34,12 @@ RX = 2
 PAD = 24
 TITLEBAR_H = 40
 LINE_H = 15
-INFO_X = 268             # where the info column starts
-LABEL_W = 96             # gap between label and value
-LEFT = 34                # day-label gutter for the grid
+INFO_X = 268
+LABEL_W = 96
+LEFT = 34
 TOP_LABELS = 22
+ICON = 34
+ICON_STEP = 48
 
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -70,44 +76,93 @@ INFO = [
     ("Stack", "Docker · n8n · Discord bots"),
 ]
 
+ICONS = [
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ubuntu/ubuntu-original.svg",
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg",
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+    "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/coolify.png",
+    "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/n8n.png",
+    "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/discord.png",
+]
 
-def fetch():
-    url = f"https://github-contributions-api.jogruber.de/v4/{USER}?y=last"
-    with urllib.request.urlopen(url, timeout=30) as r:
-        return json.load(r)
+
+def get(url, binary=True):
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.read() if binary else json.load(r)
+
+
+def fetch_contributions():
+    return get(f"https://github-contributions-api.jogruber.de/v4/{USER}?y=last",
+               binary=False)
+
+
+def icon_datauri(url):
+    raw = get(url)
+    mime = "image/svg+xml" if url.endswith(".svg") else "image/png"
+    return f"data:{mime};base64,{base64.b64encode(raw).decode()}"
 
 
 def build_weeks(days):
     first = dt.date.fromisoformat(days[0]["date"])
-    pad = (first.weekday() + 1) % 7  # Python Mon=0 -> grid Sun=0
+    pad = (first.weekday() + 1) % 7
     cells = [None] * pad + days
     return [cells[i:i + 7] for i in range(0, len(cells), 7)]
+
+
+def compute_stats(days):
+    counts = [d["count"] for d in days]
+    total = sum(counts)
+    # current streak (a trailing zero == "today, not done yet" is ignored)
+    i = len(counts) - 1
+    if i >= 0 and counts[i] == 0:
+        i -= 1
+    cur = 0
+    while i >= 0 and counts[i] > 0:
+        cur += 1
+        i -= 1
+    # longest streak
+    longest = run = 0
+    for c in counts:
+        run = run + 1 if c > 0 else 0
+        longest = max(longest, run)
+    best = max(counts) if counts else 0
+    return total, cur, longest, best
 
 
 def esc(s):
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def render(data):
+def render(data, icons):
     days = data["contributions"]
-    total = data["total"]["lastYear"]
+    year_total = data["total"]["lastYear"]
+    total, cur, longest, best = compute_stats(days)
     weeks = build_weeks(days)
     ncols = len(weeks)
 
     grid_w = ncols * CELL
     width = LEFT + grid_w + PAD * 2
-
-    # vertical rhythm
-    prompt1_y = TITLEBAR_H + 28
-    fetch_y0 = TITLEBAR_H + 52          # first ascii / info baseline
-    fetch_bottom = fetch_y0 + (len(ASCII) - 1) * LINE_H
-    prompt2_y = fetch_bottom + 34
-    gy = prompt2_y + TOP_LABELS + 8     # grid squares top
-    legend_y = gy + 7 * CELL + 20
-    height = legend_y + SQUARE + PAD
+    gx = LEFT + PAD
 
     out = []
     a = out.append
+
+    # ---- vertical cursor ----
+    p1 = TITLEBAR_H + 28
+    fetch_top = p1 + 22
+    fetch_bottom = fetch_top + len(ASCII) * LINE_H
+    p2 = fetch_bottom + 26
+    icons_y = p2 + 12
+    p3 = icons_y + ICON + 30
+    grid_top = p3 + TOP_LABELS + 8
+    legend_y = grid_top + 7 * CELL + 18
+    p4 = legend_y + SQUARE + 26
+    stats_top = p4 + 20
+    height = stats_top + 4 * LINE_H + PAD - 6
+
     a(f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
       f'viewBox="0 0 {width} {height}" '
       f'font-family="\'Cascadia Code\',\'Fira Code\',\'JetBrains Mono\',Consolas,monospace">')
@@ -122,93 +177,96 @@ def render(data):
     a(f'<text x="{width/2}" y="{TITLEBAR_H/2 + 4}" fill="{MUTED}" font-size="12.5" '
       f'text-anchor="middle">soly@norway — zsh</text>')
 
-    # ---- prompt 1: solyfetch ----
-    a(f'<text x="{PAD}" y="{prompt1_y}" font-size="13">'
-      f'<tspan fill="{ACCENT}">$</tspan>'
-      f'<tspan fill="{TEXT}"> solyfetch</tspan></text>')
-
-    # ascii logo
+    # ---- $ solyfetch ----
+    a(f'<text x="{PAD}" y="{p1}" font-size="13">'
+      f'<tspan fill="{ACCENT}">$</tspan><tspan fill="{TEXT}"> solyfetch</tspan></text>')
     for i, line in enumerate(ASCII):
-        y = fetch_y0 + i * LINE_H
-        a(f'<text x="{PAD}" y="{y}" fill="{TEAL}" font-size="12" '
+        a(f'<text x="{PAD}" y="{fetch_top + i*LINE_H}" fill="{TEAL}" font-size="12" '
           f'xml:space="preserve">{esc(line)}</text>')
-
-    # info header + rows
-    a(f'<text x="{INFO_X}" y="{fetch_y0}" font-size="12.5">'
-      f'<tspan fill="{ACCENT}">soly</tspan>'
-      f'<tspan fill="{MUTED}">@</tspan>'
+    a(f'<text x="{INFO_X}" y="{fetch_top}" font-size="12.5">'
+      f'<tspan fill="{ACCENT}">soly</tspan><tspan fill="{MUTED}">@</tspan>'
       f'<tspan fill="{BLUE}">norway</tspan></text>')
-    a(f'<text x="{INFO_X}" y="{fetch_y0 + 8}" fill="{BORDER}" font-size="12" '
+    a(f'<text x="{INFO_X}" y="{fetch_top + 8}" fill="{BORDER}" font-size="12" '
       f'xml:space="preserve">{"─" * 30}</text>')
     for i, (label, value) in enumerate(INFO):
-        y = fetch_y0 + (i + 2) * LINE_H + 2
-        a(f'<text x="{INFO_X}" y="{y}" font-size="12.5">'
-          f'<tspan fill="{BLUE}">{esc(label)}</tspan></text>')
-        a(f'<text x="{INFO_X + LABEL_W}" y="{y}" fill="{TEXT}" font-size="12.5">'
-          f'{esc(value)}</text>')
-    socy = fetch_y0 + (len(INFO) + 2) * LINE_H + 2
+        y = fetch_top + (i + 2) * LINE_H + 2
+        a(f'<text x="{INFO_X}" y="{y}" fill="{BLUE}" font-size="12.5">{esc(label)}</text>')
+        a(f'<text x="{INFO_X + LABEL_W}" y="{y}" fill="{TEXT}" font-size="12.5">{esc(value)}</text>')
+    socy = fetch_top + (len(INFO) + 2) * LINE_H + 2
     a(f'<text x="{INFO_X}" y="{socy + 8}" fill="{BORDER}" font-size="12" '
       f'xml:space="preserve">{"─" * 30}</text>')
     a(f'<text x="{INFO_X}" y="{socy + LINE_H + 6}" font-size="12.5">'
       f'<tspan fill="{ACCENT}">◉ ◉ ◉</tspan>'
       f'<tspan fill="{TEXT}">   LinkedIn · YouTube · Twitter</tspan></text>')
 
-    # ---- prompt 2: github-activity ----
-    a(f'<text x="{PAD}" y="{prompt2_y}" font-size="13">'
+    # ---- $ ls ~/expertise ----
+    a(f'<text x="{PAD}" y="{p2}" font-size="13">'
+      f'<tspan fill="{ACCENT}">$</tspan><tspan fill="{TEXT}"> ls ~/expertise</tspan></text>')
+    for i, uri in enumerate(icons):
+        x = PAD + 4 + i * ICON_STEP
+        a(f'<image href="{uri}" x="{x}" y="{icons_y}" width="{ICON}" height="{ICON}" '
+          f'preserveAspectRatio="xMidYMid meet"/>')
+
+    # ---- $ github-activity --year ----
+    a(f'<text x="{PAD}" y="{p3}" font-size="13">'
       f'<tspan fill="{ACCENT}">$</tspan>'
       f'<tspan fill="{TEXT}"> github-activity --year</tspan>'
-      f'<tspan fill="{MUTED}">  # {total:,} contributions</tspan></text>')
-
-    gx = LEFT + PAD
-
-    # month labels
+      f'<tspan fill="{MUTED}">  # {year_total:,} contributions</tspan></text>')
     last_month = None
     for col, week in enumerate(weeks):
-        first_day = next((d for d in week if d), None)
-        if not first_day:
+        fd = next((d for d in week if d), None)
+        if not fd:
             continue
-        m = dt.date.fromisoformat(first_day["date"]).month
+        m = dt.date.fromisoformat(fd["date"]).month
         if m != last_month:
             last_month = m
-            a(f'<text x="{gx + col*CELL}" y="{gy - 8}" fill="{MUTED}" '
+            a(f'<text x="{gx + col*CELL}" y="{grid_top - 8}" fill="{MUTED}" '
               f'font-size="11">{MONTHS[m-1]}</text>')
-
-    # day labels
     for row, lbl in [(1, "Mon"), (3, "Wed"), (5, "Fri")]:
-        a(f'<text x="{PAD - 2}" y="{gy + row*CELL + SQUARE - 1}" fill="{MUTED}" '
+        a(f'<text x="{PAD - 2}" y="{grid_top + row*CELL + SQUARE - 1}" fill="{MUTED}" '
           f'font-size="11">{lbl}</text>')
-
-    # squares
     for col, week in enumerate(weeks):
         for row, day in enumerate(week):
             lvl = day["level"] if day else 0
-            x = gx + col * CELL
-            y = gy + row * CELL
-            a(f'<rect x="{x}" y="{y}" width="{SQUARE}" height="{SQUARE}" rx="{RX}" '
-              f'fill="{LEVELS[lvl]}"/>')
-
+            a(f'<rect x="{gx + col*CELL}" y="{grid_top + row*CELL}" width="{SQUARE}" '
+              f'height="{SQUARE}" rx="{RX}" fill="{LEVELS[lvl]}"/>')
     # legend
     more_x = width - PAD
     a(f'<text x="{more_x}" y="{legend_y + SQUARE - 1}" fill="{MUTED}" '
       f'font-size="11" text-anchor="end">More</text>')
-    squares_right = more_x - 36
-    first_sq_x = squares_right - 5 * CELL
+    first_sq_x = (more_x - 36) - 5 * CELL
     for i, c in enumerate(LEVELS):
-        lx = first_sq_x + i * CELL
-        a(f'<rect x="{lx}" y="{legend_y}" width="{SQUARE}" height="{SQUARE}" rx="{RX}" fill="{c}"/>')
+        a(f'<rect x="{first_sq_x + i*CELL}" y="{legend_y}" width="{SQUARE}" '
+          f'height="{SQUARE}" rx="{RX}" fill="{c}"/>')
     a(f'<text x="{first_sq_x - 6}" y="{legend_y + SQUARE - 1}" fill="{MUTED}" '
       f'font-size="11" text-anchor="end">Less</text>')
+
+    # ---- $ cat ~/stats.log ----
+    a(f'<text x="{PAD}" y="{p4}" font-size="13">'
+      f'<tspan fill="{ACCENT}">$</tspan><tspan fill="{TEXT}"> cat ~/stats.log</tspan></text>')
+    stats = [
+        ("total", f"{total:,} contributions"),
+        ("current streak", f"{cur} day{'s' if cur != 1 else ''} 🔥"),
+        ("longest streak", f"{longest} days"),
+        ("best day", f"{best} contributions"),
+    ]
+    for i, (label, value) in enumerate(stats):
+        y = stats_top + i * LINE_H
+        a(f'<text x="{PAD + 4}" y="{y}" fill="{BLUE}" font-size="12.5">{esc(label)}</text>')
+        a(f'<text x="{PAD + 4 + 130}" y="{y}" fill="{TEXT}" font-size="12.5">{esc(value)}</text>')
 
     a('</svg>')
     return "\n".join(out)
 
 
 def main():
-    data = fetch()
-    svg = render(data)
+    data = fetch_contributions()
+    icons = [icon_datauri(u) for u in ICONS]
+    svg = render(data, icons)
     with open("terminal.svg", "w", encoding="utf-8") as f:
         f.write(svg)
-    print(f"Wrote terminal.svg ({data['total']['lastYear']} contributions)")
+    print(f"Wrote terminal.svg ({data['total']['lastYear']} contributions, "
+          f"{len(icons)} icons embedded)")
 
 
 if __name__ == "__main__":
