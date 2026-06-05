@@ -7,29 +7,10 @@
 
 ###
 
-<!-- ========================  SOLYFETCH  ======================== -->
-```bash
-visitor@thesolyboy:~$ solyfetch
-
-           .o+`                 soly@norway
-          `ooo/                 ─────────────────────────────
-         `+oooo:                Role        Young dev from Norway 🇳🇴
-        `+oooooo:               Studying    IT
-        -+oooooo+:              Learning    Next.js · Supabase · Coolify
-      `/:-:++oooo+:             Hobbies     Volleyball · Building projects
-     `/++++/+++++++:            Editor      VS Code
-    `/++++++++++++++:           Shell       zsh
-   `/+++ooooooooooooo/`         Langs       Python · HTML · JavaScript
-  ./ooosssso++osssssso+`        Stack       Docker · n8n · Discord bots
- .oossssso-````/ossssss+`       ─────────────────────────────
--osssssso.      :ssssssso.      ◉ ◉ ◉   LinkedIn · YouTube · Twitter
-:osssssss/      osssso+++.
-/ossssssss/     +ssssooo/-      visitor@thesolyboy:~$ █
-`/ossssso+/:-   -:/+osssso+-
- `+sso+:-`       `.-/+oso:
-  `++:.            `-/+/
-    .`                `/
-```
+<!-- ========================  TERMINAL (solyfetch + contributions)  ======================== -->
+<div align="center">
+  <img src="./terminal.svg" alt="soly@norway terminal" width="780" />
+</div>
 
 ###
 
@@ -62,15 +43,6 @@ visitor@thesolyboy:~$ solyfetch
   <img width="12" />
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/discord.png" height="40" alt="discord logo"  />
   <img width="12" />
-</div>
-
-###
-
-<!-- ========================  CONTRIBUTION GRID  ======================== -->
-<h3 align="left">$ github-activity --year</h3>
-
-<div align="center">
-  <img src="./contributions.svg" alt="contribution grid" width="760" />
 </div>
 
 ###

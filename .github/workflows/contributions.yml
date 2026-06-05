@@ -23,17 +23,17 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Build contributions.svg
+      - name: Build terminal.svg
         run: python scripts/generate_contributions.py
 
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet contributions.svg; then
-            git add contributions.svg
-            git commit -m "chore: refresh contribution grid"
+          if ! git diff --quiet terminal.svg; then
+            git add terminal.svg
+            git commit -m "chore: refresh terminal contribution grid"
             git push
           else
-            echo "No changes to contributions.svg"
+            echo "No changes to terminal.svg"
           fi
