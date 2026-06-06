@@ -16,14 +16,14 @@ import urllib.request
 
 USER = "thesolyboy"
 
-# ---- palette --------------------------------------------------------------
-LEVELS = ["#161B22", "#0E4429", "#006D32", "#26A641", "#39D353"]
+# ---- palette (matches the flame-S logo: aqua -> teal -> blue) -------------
+LEVELS = ["#161B22", "#1B4D52", "#2A8A8C", "#39D0C8", "#7DF0E0"]
 BG = "#0D1117"
 TITLEBAR = "#161B22"
 BORDER = "#30363D"
-ACCENT = "#2BD96B"       # green prompt
+ACCENT = "#39D0C8"       # teal prompt (matches logo)
 TEAL = "#39D0C8"         # ascii logo
-BLUE = "#58A6FF"         # info / stat labels
+BLUE = "#6680EE"         # info / stat labels (logo gradient bottom)
 TEXT = "#C9D1D9"         # values
 MUTED = "#8B949E"
 
