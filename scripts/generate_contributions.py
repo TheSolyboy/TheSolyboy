@@ -79,6 +79,18 @@ ICONS = [
     "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/discord.png",
 ]
 
+# AI apps & tools I use. No dedicated Claude Code mark exists publicly, so it
+# borrows the Anthropic logo; "hermes" is NousResearch Hermes.
+DASH = "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg"
+AI_ICONS = [
+    f"{DASH}/claude-ai.svg",     # Claude
+    f"{DASH}/chatgpt.svg",       # ChatGPT
+    f"{DASH}/perplexity.svg",    # Perplexity
+    f"{DASH}/hermes-icon.svg",   # Hermes (NousResearch)
+    f"{DASH}/openclaw.svg",      # OpenClaw
+    f"{DASH}/anthropic.svg",     # Claude Code (Anthropic mark)
+]
+
 
 def get(url, binary=True):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
@@ -153,7 +165,7 @@ def esc(s):
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def render(data, icons):
+def render(data, icons, ai_icons):
     days = data["contributions"]
     year_total = data["total"]["lastYear"]
     total, cur, longest, best = compute_stats(days)
@@ -173,7 +185,9 @@ def render(data, icons):
     fetch_bottom = fetch_top + max(len(ASCII) * ASCII_LH, 11 * LINE_H)
     p2 = fetch_bottom + 26
     icons_y = p2 + 12
-    p3 = icons_y + ICON + 30
+    p_ai = icons_y + ICON + 30
+    ai_icons_y = p_ai + 12
+    p3 = ai_icons_y + ICON + 30
     grid_top = p3 + TOP_LABELS + 8
     legend_y = grid_top + 7 * CELL + 18
     p4 = legend_y + SQUARE + 26
@@ -222,6 +236,14 @@ def render(data, icons):
     for i, uri in enumerate(icons):
         x = PAD + 4 + i * ICON_STEP
         a(f'<image href="{uri}" x="{x}" y="{icons_y}" width="{ICON}" height="{ICON}" '
+          f'preserveAspectRatio="xMidYMid meet"/>')
+
+    # ---- $ ls ~/ai-tools ----
+    a(f'<text x="{PAD}" y="{p_ai}" font-size="13">'
+      f'<tspan fill="{ACCENT}">$</tspan><tspan fill="{TEXT}"> ls ~/ai-tools</tspan></text>')
+    for i, uri in enumerate(ai_icons):
+        x = PAD + 4 + i * ICON_STEP
+        a(f'<image href="{uri}" x="{x}" y="{ai_icons_y}" width="{ICON}" height="{ICON}" '
           f'preserveAspectRatio="xMidYMid meet"/>')
 
     # ---- $ github-activity --year ----
@@ -279,11 +301,12 @@ def render(data, icons):
 def main():
     data = fetch_contributions()
     icons = [icon_datauri(u) for u in ICONS]
-    svg = render(data, icons)
+    ai_icons = [icon_datauri(u) for u in AI_ICONS]
+    svg = render(data, icons, ai_icons)
     with open("terminal.svg", "w", encoding="utf-8") as f:
         f.write(svg)
     print(f"Wrote terminal.svg ({data['total']['lastYear']} contributions, "
-          f"{len(icons)} icons embedded)")
+          f"{len(icons) + len(ai_icons)} icons embedded)")
 
 
 if __name__ == "__main__":
