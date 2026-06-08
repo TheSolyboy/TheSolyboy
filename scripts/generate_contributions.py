@@ -66,6 +66,7 @@ INFO = [
     ("Shell", "zsh"),
     ("Langs", "Python · HTML · JavaScript"),
     ("Stack", "Docker · n8n · Discord bots"),
+    ("AI", "Claude · ChatGPT · Perplexity · Hermes · OpenClaw"),
 ]
 
 ICONS = [
@@ -165,21 +166,6 @@ def esc(s):
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def palette_defs():
-    """SVG filter that recolors any <image> into the profile palette: desaturate
-    to luminance, then map dark->light through the contribution gradient
-    (dark teal -> teal -> light aqua) so the icons match the rest of the terminal."""
-    anchors = [LEVELS[1], LEVELS[3], LEVELS[4]]
-    chan = lambda i: " ".join(f"{int(h[1 + 2*i:3 + 2*i], 16) / 255:.3f}" for h in anchors)
-    return ('<defs><filter id="palette" color-interpolation-filters="sRGB">'
-            '<feColorMatrix type="saturate" values="0"/>'
-            '<feComponentTransfer>'
-            f'<feFuncR type="table" tableValues="{chan(0)}"/>'
-            f'<feFuncG type="table" tableValues="{chan(1)}"/>'
-            f'<feFuncB type="table" tableValues="{chan(2)}"/>'
-            '</feComponentTransfer></filter></defs>')
-
-
 def render(data, icons, ai_icons):
     days = data["contributions"]
     year_total = data["total"]["lastYear"]
@@ -212,7 +198,6 @@ def render(data, icons, ai_icons):
     a(f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
       f'viewBox="0 0 {width} {height}" '
       f'font-family="\'Cascadia Code\',\'Fira Code\',\'JetBrains Mono\',Consolas,monospace">')
-    a(palette_defs())
 
     # window + title bar
     a(f'<rect x="0.5" y="0.5" width="{width-1}" height="{height-1}" rx="10" '
@@ -252,7 +237,7 @@ def render(data, icons, ai_icons):
     for i, uri in enumerate(icons):
         x = PAD + 4 + i * ICON_STEP
         a(f'<image href="{uri}" x="{x}" y="{icons_y}" width="{ICON}" height="{ICON}" '
-          f'preserveAspectRatio="xMidYMid meet" filter="url(#palette)"/>')
+          f'preserveAspectRatio="xMidYMid meet"/>')
 
     # ---- $ ls ~/ai-tools ----
     a(f'<text x="{PAD}" y="{p_ai}" font-size="13">'
@@ -260,7 +245,7 @@ def render(data, icons, ai_icons):
     for i, uri in enumerate(ai_icons):
         x = PAD + 4 + i * ICON_STEP
         a(f'<image href="{uri}" x="{x}" y="{ai_icons_y}" width="{ICON}" height="{ICON}" '
-          f'preserveAspectRatio="xMidYMid meet" filter="url(#palette)"/>')
+          f'preserveAspectRatio="xMidYMid meet"/>')
 
     # ---- $ github-activity --year ----
     a(f'<text x="{PAD}" y="{p3}" font-size="13">'
