@@ -10,7 +10,7 @@ Everything lives inside a single faux terminal -> the README is just one image.
 """
 import base64
 import datetime as dt
-import json
+import re
 import sys
 import urllib.request
 
@@ -83,12 +83,37 @@ ICONS = [
 def get(url, binary=True):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=30) as r:
-        return r.read() if binary else json.load(r)
+        return r.read() if binary else r.read().decode("utf-8", "replace")
+
+
+# GitHub's own calendar markup: one <td> per day (date + level) plus a matching
+# <tool-tip> carrying the exact count. Read it directly so private contributions
+# are included (when "Private contributions" is enabled on the profile) — the
+# jogruber third-party API only ever sees public counts and caches them.
+CONTRIB_URL = f"https://github.com/users/{USER}/contributions"
+_DAY_RE = re.compile(
+    r'data-date="(\d{4}-\d{2}-\d{2})"\s+id="(contribution-day-component-\d+-\d+)"'
+    r'\s+data-level="(\d)"')
+_TIP_RE = re.compile(
+    r'<tool-tip[^>]*for="(contribution-day-component-\d+-\d+)"[^>]*>([^<]*)</tool-tip>')
 
 
 def fetch_contributions():
-    return get(f"https://github-contributions-api.jogruber.de/v4/{USER}?y=last",
-               binary=False)
+    html = get(CONTRIB_URL, binary=False)
+    counts = {}
+    for cid, text in _TIP_RE.findall(html):
+        m = re.match(r"\s*(No|[\d,]+)\s+contribution", text)
+        counts[cid] = 0 if not m or m.group(1) == "No" else int(m.group(1).replace(",", ""))
+    days = [
+        {"date": date, "level": int(level), "count": counts.get(cid, 0)}
+        for date, cid, level in _DAY_RE.findall(html)
+    ]
+    days.sort(key=lambda d: d["date"])
+    if not days:
+        raise RuntimeError("Parsed 0 days from GitHub contributions page — "
+                           "markup may have changed.")
+    return {"total": {"lastYear": sum(d["count"] for d in days)},
+            "contributions": days}
 
 
 def icon_datauri(url):
