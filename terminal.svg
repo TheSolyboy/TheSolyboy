@@ -452,6 +452,7 @@
 <rect x="734" y="610.5" width="11" height="11" rx="2" fill="#161B22"/>
 <rect x="734" y="623.5" width="11" height="11" rx="2" fill="#1B4D52"/>
 <rect x="734" y="636.5" width="11" height="11" rx="2" fill="#161B22"/>
+<rect x="734" y="649.5" width="11" height="11" rx="2" fill="#161B22"/>
 <text x="747" y="729.5" fill="#8B949E" font-size="11" text-anchor="end">More</text>
 <rect x="646" y="719.5" width="11" height="11" rx="2" fill="#161B22"/>
 <rect x="659" y="719.5" width="11" height="11" rx="2" fill="#1B4D52"/>
@@ -463,7 +464,7 @@
 <text x="28" y="776.5" fill="#6680EE" font-size="12.5">total</text>
 <text x="158" y="776.5" fill="#C9D1D9" font-size="12.5">1,215 contributions</text>
 <text x="28" y="791.5" fill="#6680EE" font-size="12.5">current streak</text>
-<text x="158" y="791.5" fill="#C9D1D9" font-size="12.5">1 day 🔥</text>
+<text x="158" y="791.5" fill="#C9D1D9" font-size="12.5">0 days 🔥</text>
 <text x="28" y="806.5" fill="#6680EE" font-size="12.5">longest streak</text>
 <text x="158" y="806.5" fill="#C9D1D9" font-size="12.5">16 days</text>
 <text x="28" y="821.5" fill="#6680EE" font-size="12.5">best day</text>
