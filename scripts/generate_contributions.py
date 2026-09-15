@@ -75,6 +75,7 @@ ICONS = [
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ubuntu/ubuntu-original.svg",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+    "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/proxmox.svg",
     "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/coolify.png",
     "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/n8n.png",
     "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/discord.png",
