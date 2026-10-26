@@ -90,7 +90,7 @@ AI_ICONS = [
     f"{DASH}/claude-ai.svg",     # Claude
     f"{DASH}/chatgpt.svg",       # ChatGPT
     f"{DASH}/perplexity.svg",    # Perplexity
-    f"{DASH}/hermes-icon.svg",   # Hermes (NousResearch)
+    f"{DASH}/hermes.svg",   # Hermes (NousResearch)
     f"{DASH}/openclaw.svg",      # OpenClaw
 ]
 
@@ -135,6 +135,15 @@ def icon_datauri(url):
     raw = get(url)
     mime = "image/svg+xml" if url.endswith(".svg") else "image/png"
     return f"data:{mime};base64,{base64.b64encode(raw).decode()}"
+
+
+def safe_icon(url):
+    """A dead third-party icon URL must not fail the whole run (and spam mail)."""
+    try:
+        return icon_datauri(url)
+    except Exception as e:  # noqa: BLE001
+        print(f"::warning::icon skipped {url}: {e}", file=sys.stderr)
+        return None
 
 
 def build_weeks(days):
@@ -303,8 +312,8 @@ def render(data, icons, ai_icons):
 
 def main():
     data = fetch_contributions()
-    icons = [icon_datauri(u) for u in ICONS]
-    ai_icons = [icon_datauri(u) for u in AI_ICONS]
+    icons = [i for i in (safe_icon(u) for u in ICONS) if i]
+    ai_icons = [i for i in (safe_icon(u) for u in AI_ICONS) if i]
     svg = render(data, icons, ai_icons)
     with open("terminal.svg", "w", encoding="utf-8") as f:
         f.write(svg)
