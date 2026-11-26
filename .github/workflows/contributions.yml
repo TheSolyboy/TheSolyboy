@@ -1,4 +1,4 @@
-name: Generate Contribution Grid
+name: Refresh profile images
 
 on:
   schedule:
@@ -23,17 +23,17 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Build terminal.svg
-        run: python scripts/generate_contributions.py
+      - name: Build header.svg + profile.svg
+        run: python scripts/generate_profile.py
 
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet terminal.svg; then
-            git add terminal.svg
-            git commit -m "chore: refresh terminal contribution grid"
+          if ! git diff --quiet assets/; then
+            git add assets/
+            git commit -m "chore: refresh profile activity"
             git push
           else
-            echo "No changes to terminal.svg"
+            echo "No changes to profile images"
           fi

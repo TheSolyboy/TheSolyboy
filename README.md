@@ -1,22 +1,19 @@
-<!-- ========================  TERMINAL HEADER  ======================== -->
+<img src="./assets/header.svg" alt="" width="100%" />
+
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=39D0C8&center=true&vCenter=true&width=620&height=45&lines=Hi+there%2C+I'm+Soly+%F0%9F%91%8B;Young+dev+from+Norway+%F0%9F%87%B3%F0%9F%87%B4;Currently+studying+IT;Always+building+something" alt="typing banner" />
+Young dev from Norway, studying IT. Always building something.
 
+<br />
+
+  <img src="./assets/toolkit.svg" alt="HTML, Python, Ubuntu, Supabase, Docker, Proxmox, OPNsense, Coolify, n8n, Discord, Claude, ChatGPT, Perplexity, Hermes, OpenClaw" width="78%" />
+  <br /><br /><br />
+  <img src="./assets/activity.svg" alt="Contributions over the last year" width="100%" />
+  <br /><br />
+
+**Certifications**
+
+  <a href="https://academy.claude.com/verify/552c8968f94fef308c0838893d2ff767"><img src="./assets/claude-101.png" alt="Claude 101 course completion badge from Claude Academy (click to verify)" width="96" /></a>
+  <br />
+  <sub>Claude 101 · Claude Academy · Anthropic</sub>
 </div>
-
-###
-
-<!-- ========================  TERMINAL (solyfetch + contributions)  ======================== -->
-<div align="center">
-  <img src="./terminal.svg" alt="soly@norway terminal" width="780" />
-</div>
-
-###
-
-<!-- ========================  VISITORS  ======================== -->
-<div align="center">
-  <img src="https://visitor-badge.laobi.icu/badge?page_id=thesolyboy.thesolyboy&color=39D0C8"  />
-</div>
-
-###
