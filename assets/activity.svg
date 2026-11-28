@@ -369,4 +369,5 @@
 <rect x="780" y="45" width="12" height="12" rx="3" fill="#E9A64E" fill-opacity="1.0"/>
 <rect x="780" y="60" width="12" height="12" rx="3" fill="#E9A64E" fill-opacity="0.55"/>
 <rect x="780" y="75" width="12" height="12" rx="3" fill="#E9A64E" fill-opacity="0.35"/>
+<rect x="780" y="90" width="12" height="12" rx="3" fill="#8B949E" fill-opacity="0.16"/>
 </svg>
